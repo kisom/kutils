@@ -30,7 +30,11 @@
                      (setq key-p t
                            v     (read-from-string (finalise-read v)))
                      (setf (gethash k m) v)
-                     (setq k nil v nil)))))
+                     (setq k nil v nil))))
+             (reading-complete-p ()
+               (and (null v)
+                    (not
+                     (null k)))))
       (do ((prev (read-char stream) curr)
 	   (curr (read-char stream) (read-char stream)))
 	  ((and (char= prev #\}) (char= curr #\#)))
@@ -39,14 +43,15 @@
 	    (if key-p
 		(push prev k)
 		(push prev v))))
-      (if (and (null v) (not (null k)))
+      (if (reading-complete-p)
 	  (error "Mismatched key value pairs.")
 	  (progn 
 	    (finalise-kv-pair)
 	    m)))))
 
-(set-dispatch-macro-character
- #\# #\{ #'|#{-reader|)
+(defun enable-hashtable-literal ()
+  (set-dispatch-macro-character
+   #\# #\{ #'|#{-reader|))
 
 (defun sethash (k v m)
   "Convenience notation for setting a value in a hash table."
