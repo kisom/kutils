@@ -22,15 +22,15 @@
     (labels ((finalise-read (x)
 	       (reverse (concatenate 'string x)))
 	     (finalise-kv-pair ()
-	       (if key-p
-		   (progn
-		     (setq key-p nil
-			   k     (read-from-string (finalise-read k))))
-		   (progn
-		     (setq key-p t
-			   v     (read-from-string (finalise-read v)))
-		     (setf (gethash k m) v)
-		     (setq k nil v nil)))))
+               (if key-p
+                   (unless (null k)
+                     (setq key-p nil
+                           k     (read-from-string (finalise-read k))))
+                   (unless (null v)
+                     (setq key-p t
+                           v     (read-from-string (finalise-read v)))
+                     (setf (gethash k m) v)
+                     (setq k nil v nil)))))
       (do ((prev (read-char stream) curr)
 	   (curr (read-char stream) (read-char stream)))
 	  ((and (char= prev #\}) (char= curr #\#)))
@@ -39,8 +39,7 @@
 	    (if key-p
 		(push prev k)
 		(push prev v))))
-      (if (and (null k)
-	       (null v))
+      (if (and (null v) (not (null k)))
 	  (error "Mismatched key value pairs.")
 	  (progn 
 	    (finalise-kv-pair)
