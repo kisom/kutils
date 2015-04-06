@@ -2,7 +2,9 @@
 
 (in-package #:kutils)
 
-;;; "kutil" goes here. Hacks and glory await!
+;;; "kutils" goes here. Hacks and glory await!
+
+;;; This file contains various utilities I've written.
 
 (defun join (x sep)
   (flatten
@@ -50,6 +52,14 @@
 	    m)))))
 
 (defun enable-hashtable-literal ()
+  "Enables the reader macro #{}# for hash-tables. The resulting
+hash-table will use #'equal for equality. For example,
+
+#{:a :b :c :d}#
+
+will create a hash-table with the keys :a and :c. :a stores the
+value :b, and :c stores the value :d.
+"
   (set-dispatch-macro-character
    #\# #\{ #'|#{-reader|))
 
@@ -67,6 +77,7 @@
     keys))
 
 (defun hashtable-to-alist (m)
+  "Converts the hash-table given to an alist of (key . value) pairs."
   (let ((alist '()))
     (maphash (lambda (k v)
 	       (let ((elt (cons k v)))
