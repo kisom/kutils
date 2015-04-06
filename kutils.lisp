@@ -39,7 +39,8 @@
 	    (if key-p
 		(push prev k)
 		(push prev v))))
-      (if key-p
+      (if (and (null k)
+	       (null v))
 	  (error "Mismatched key value pairs.")
 	  (progn 
 	    (finalise-kv-pair)
