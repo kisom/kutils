@@ -51,7 +51,7 @@
 	    (finalise-kv-pair)
 	    m)))))
 
-(defun enable-hashtable-literal ()
+(defun enable-hash-table-reader ()
   "Enables the reader macro #{}# for hash-tables. The resulting
 hash-table will use #'equal for equality. For example,
 
@@ -76,7 +76,7 @@ value :b, and :c stores the value :d.
 	     m)
     keys))
 
-(defun hashtable-to-alist (m)
+(defun hash-table-to-alist (m)
   "Converts the hash-table given to an alist of (key . value) pairs."
   (let ((alist '()))
     (maphash (lambda (k v)
@@ -84,3 +84,12 @@ value :b, and :c stores the value :d.
 		 (setf alist (cons elt alist))))
 	     m)
     alist))
+
+(defun alist-to-hash-table (alist)
+  "Converts the alist to a hash-table."
+  (let ((m (make-hash-table :test 'equal)))
+    (dolist (elt alist)
+      (sethash (car elt) (cdr elt) m))
+    m))
+
+(defun kget (elt indicator)
