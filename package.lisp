@@ -9,6 +9,8 @@
 	   #:compose
 	   #:defmacro! ; Let Over Lambda utilities
 	   #:join      ; My utilities
+	   #:build-list
+	   #:partial
            #:enable-hash-table-reader
            #:hashkeys
 	   #:sethash

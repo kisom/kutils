@@ -12,6 +12,21 @@
 	     (list y sep))
 	   x)))
 
+(defun build-list (arg)
+  "If arg is an atom, return it as a list. If it's a list, return the
+arg. If it's a vector, coerce it to a list. Otherwise, return nil."
+  (cond
+    ((listp   arg) (copy-list arg))
+    ((atom    arg) (list arg))
+    ((vectorp arg) (coerce arg 'list))
+    (t nil)))
+
+(defun partial (fn &rest initial-args)
+  "partial provides partial function application. It returns a lambda
+that will call the function given with the intial args and any
+additional args provided to the lambda."
+  (lambda (&rest args)
+    (apply fn (append initial-args args))))
 
 ;;; hash-table functions.
 
@@ -92,4 +107,3 @@ value :b, and :c stores the value :d.
       (sethash (car elt) (cdr elt) m))
     m))
 
-(defun kget (elt indicator)
