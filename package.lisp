@@ -3,7 +3,7 @@
 (defpackage #:kutils
   (:use #:cl)
   (:export #:mkstr     ; On Lisp utilities
-	   #:symbb
+	   #:symb
 	   #:group
 	   #:flatten
 	   #:compose
