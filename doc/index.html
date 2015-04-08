@@ -68,7 +68,7 @@ of the result</li>
    alist of <code>(key . value)</code> pairs.</li>
    <li><code>alist-to-hash-table</code>: converts an alist to a hash
    table.</li>
-   <li><code>enable-hash-table-reader</code>: Enables the reader
+   <li><code>enable-hash-table-reader</code>: enables the reader
    macro <code>#{}#</code> for hash tables. The resulting hash-table
    will use #'equal for equality. For example,
 
@@ -79,6 +79,19 @@ of the result</li>
 will create a hash-table with the keys <code>:a</code>
 and <code>:c</code>. <code>:a</code> stores the value <code>:b</code>,
 and <code>:c</code> stores the value <code>:d</code>.</li>
+ </ul>
+
+ <h3>Miscellaneous</h3>
+ <ul>
+   <li><code>interpose</code>: places a separator between each element
+   of a list.</li>
+   <li><code>build-list</code>: if arg is an atom, return it as a
+   list. If it's a list, return the arg. If it's a vector, coerce it
+   to a list. Otherwise, return nil.</li>
+   <li><code>partial</code>: provides partial function application. It
+   returns a lambda that will call the function given with the intial
+   args and any additional args provided to the lambda.</li>
+   <li><code>macroexpand-n</code>: expand the macro n times.</li>
  </ul>
 
  <h3>Quicklisp installation</h3>

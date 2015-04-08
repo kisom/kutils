@@ -6,11 +6,12 @@
 
 ;;; This file contains various utilities I've written.
 
-(defun join (x sep)
-  (flatten
-   (mapcar (lambda (y)
-	     (list y sep))
-	   x)))
+(defun interpose (x sep)
+  "Takes a list and a separator, and places separator between element
+of the list."
+  (mapcar (lambda (y)
+	    (list y sep))
+	  x))
 
 (defun build-list (arg)
   "If arg is an atom, return it as a list. If it's a list, return the
@@ -28,7 +29,20 @@ additional args provided to the lambda."
   (lambda (&rest args)
     (apply fn (append initial-args args))))
 
+(defun macroexpand-n (n form)
+  "Expand the macro n times."
+  (let ((new-form form))
+    (dotimes (i n)
+      (multiple-value-bind
+	    (expansion expanded)
+	  (macroexpand-1 new-form)
+	(if expanded
+	    (setf new-form expansion)
+	    (return))))
+    new-form))
+
 ;;; hash-table functions.
+
 
 (defun |#{-reader| (stream sub-char numarg)
   (declare (ignore sub-char numarg))
@@ -39,19 +53,19 @@ additional args provided to the lambda."
     (labels ((finalise-read (x)
 	       (reverse (concatenate 'string x)))
 	     (finalise-kv-pair ()
-               (if key-p
-                   (unless (null k)
-                     (setq key-p nil
-                           k     (read-from-string (finalise-read k))))
-                   (unless (null v)
-                     (setq key-p t
-                           v     (read-from-string (finalise-read v)))
-                     (setf (gethash k m) v)
-                     (setq k nil v nil))))
-             (reading-complete-p ()
-               (and (null v)
-                    (not
-                     (null k)))))
+	       (if key-p
+		   (unless (null k)
+		     (setq key-p nil
+			   k     (read-from-string (finalise-read k))))
+		   (unless (null v)
+		     (setq key-p t
+			   v     (read-from-string (finalise-read v)))
+		     (setf (gethash k m) v)
+		     (setq k nil v nil))))
+	     (reading-complete-p ()
+	       (and (null v)
+		    (not
+		     (null k)))))
       (do ((prev (read-char stream) curr)
 	   (curr (read-char stream) (read-char stream)))
 	  ((and (char= prev #\}) (char= curr #\#)))

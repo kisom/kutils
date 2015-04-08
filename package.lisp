@@ -11,6 +11,8 @@
 	   #:join      ; My utilities
 	   #:build-list
 	   #:partial
+	   #:macroexpand-n
+	   #:count-macroexpansions
            #:enable-hash-table-reader
            #:hashkeys
 	   #:sethash
