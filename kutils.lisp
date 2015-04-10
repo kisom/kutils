@@ -75,11 +75,18 @@ additional args provided to the lambda."
 		    '()
 		    (apply #'build-slot-list name slots)))
 	 (args (build-arg-list slots)))
-    `(progn
-       (defclass ,name ,superclass
-	 ,slots
-	 ,docstring
-	 ,@body))))
+    `(defclass ,name ,superclass
+       ,slots
+       ,docstring
+       ,@body)))
+
+(defmacro defconstructor (class-name)
+  (let* ((class     (find-class class-name))
+	 (slot-list (when class
+		      (mapcar #'closer-mop:slot-definition-name 
+			      (closer-mop:class-slots class)))))
+    `(defun ,(mksymb "make-" class-name) (&key ,@slot-list)
+       (make-instance ',class-name ,@(flatten (build-arg-list slot-list))))))
 
 ;;; hash-table functions.
 

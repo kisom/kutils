@@ -15,6 +15,7 @@
 	   #:mksymb
 	   #:mkkw
 	   #:defclass!
+	   #:defconstructor
            #:enable-hash-table-reader
            #:hashkeys
 	   #:sethash

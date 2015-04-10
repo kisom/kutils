@@ -5,6 +5,7 @@
   :author "K. Isom <kyle@metacircular.net>"
   :license "MIT License"
   :serial t
+  :depends-on (#:closer-mop)
   :components ((:file "package")
 	       (:file "on")
 	       (:file "lol")
