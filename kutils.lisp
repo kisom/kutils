@@ -41,6 +41,19 @@ additional args provided to the lambda."
 	    (return))))
     new-form))
 
+(defun mksymb (&rest args)
+  "Create a symbol from arguments, upcasing strings as required."
+  (let ((args (mapcar (lambda (arg)
+			(if (stringp arg)
+			    (string-upcase arg)
+			    arg))
+		      args)))
+    (apply #'symb args)))
+
+(defun mkkw (&rest args)
+  "Create a keyword from its arguments."
+  (intern (string (apply #'mksymb args)) "KEYWORD"))
+
 ;;; hash-table functions.
 
 

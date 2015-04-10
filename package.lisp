@@ -12,7 +12,8 @@
 	   #:build-list
 	   #:partial
 	   #:macroexpand-n
-	   #:count-macroexpansions
+	   #:mksymb
+	   #:mkkw
            #:enable-hash-table-reader
            #:hashkeys
 	   #:sethash
