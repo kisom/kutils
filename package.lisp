@@ -14,6 +14,7 @@
 	   #:macroexpand-n
 	   #:mksymb
 	   #:mkkw
+	   #:defclass!
            #:enable-hash-table-reader
            #:hashkeys
 	   #:sethash

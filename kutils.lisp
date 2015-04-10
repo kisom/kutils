@@ -54,6 +54,33 @@ additional args provided to the lambda."
   "Create a keyword from its arguments."
   (intern (string (apply #'mksymb args)) "KEYWORD"))
 
+(defun build-slot (class-name slot)
+  (let* ((slot-sym (mksymb slot))
+	 (accessor (mksymb class-name "-" slot-sym)))
+    (list slot-sym
+	  :initarg (mkkw slot-sym)
+	  :accessor accessor)))
+
+(defun build-slot-list (class-name &rest slots)
+  (mapcar (partial #'build-slot class-name) slots))
+
+(defun build-arg-list (slots)
+  (mapcar (lambda (slot) (list (mkkw slot) (mksymb slot))) slots))
+
+(defmacro defclass! (name superclass slots &body body)
+  (let* ((docstring (when (stringp (first body))
+		      (list :documentation (first body))))
+	 (body (if docstring (rest body) body))
+	 (slots (if (null slots)
+		    '()
+		    (apply #'build-slot-list name slots)))
+	 (args (build-arg-list slots)))
+    `(progn
+       (defclass ,name ,superclass
+	 ,slots
+	 ,docstring
+	 ,@body))))
+
 ;;; hash-table functions.
 
 
