@@ -42,3 +42,14 @@ For example:
     CL-USER> (kutils:hashkeys (kutils:alist-to-hashtable (kutils:hashtable-to-alist #{:a :b :c :d}#)))
     (:A :C)
 
+Miscellanea
+===========
+
+* interpose
+* build-list
+* partial
+* macroexpand-n
+* mksymb
+* mkkw
+* defclass!
+* defconstructor
