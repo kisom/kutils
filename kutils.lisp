@@ -69,29 +69,34 @@ additional args provided to the lambda."
 (defun build-arg-list (slots)
   (mapcar (lambda (slot) (list (mkkw slot) (mksymb slot))) slots))
 
+(defun inherited-slots (supers)
+  (mapcar #'closer-mop:slot-definition-name
+	  (flatten
+	   (mapcar #'closer-mop:class-slots
+		   (mapcar #'find-class supers)))))
+
 (defmacro defclass! (name superclass slots &body body)
   (let* ((docstring (when (stringp (first body))
 		      (list :documentation (first body))))
+	 (supers (mapcar (compose #'class-name #'find-class #'mksymb) superclass))
 	 (body (if docstring (rest body) body))
-	 (slots (if (null slots)
+	 (slot-list (if (null slots)
 		    '()
-		    (apply #'build-slot-list name slots))))
+		    (apply #'build-slot-list name slots)))
+	 (ctor (mksymb "make-" name))
+	 (all-slots (flatten (append (inherited-slots superclass) slots))))
+    
+    (format t "Supers: ~A~%" supers)
     `(progn
        (closer-mop:ensure-finalized
-	(defclass ,name ,superclass
-	  ,slots
+	(defclass ,name ,supers
+	  ,slot-list
 	  ,docstring
 	  ,@body))
-       (let* ((class     (find-class ',name))
-	      (slot-list (when class
-			   (mapcar #'closer-mop:slot-definition-name 
-				   (closer-mop:class-slots class))))
-	      (class-name ',name))
-	 `(defun ,(kutils:mksymb "make-" (quote class-name))
-	      (cons '&key slot-list)
-	    (make-instance (quote ,class-name)
-			   ,@(kutils:flatten
-			      (build-arg-list slot-list))))))))
+       (defun ,ctor (&key ,@(append (inherited-slots
+				     superclass)
+				    slots))
+	 (make-instance ',name ,@(flatten (build-arg-list all-slots)))))))
 
 ;;; hash-table functions.
 
