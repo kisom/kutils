@@ -8,7 +8,7 @@
 	   #:flatten
 	   #:compose
 	   #:defmacro! ; Let Over Lambda utilities
-	   #:join      ; My utilities
+	   #:interpose ; My utilities
 	   #:build-list
 	   #:partial
 	   #:macroexpand-n

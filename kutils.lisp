@@ -9,9 +9,11 @@
 (defun interpose (x sep)
   "Takes a list and a separator, and places separator between element
 of the list."
-  (mapcar (lambda (y)
-	    (list y sep))
-	  x))
+  (let ((x (coerce x 'list)))
+    (apply #'append
+	   (mapcar (lambda (y)
+		     (list y sep))
+		   x))))
 
 (defun build-list (arg)
   "If arg is an atom, return it as a list. If it's a list, return the
@@ -73,12 +75,12 @@ additional args provided to the lambda."
 	 (body (if docstring (rest body) body))
 	 (slots (if (null slots)
 		    '()
-		    (apply #'build-slot-list name slots)))
-	 (args (build-arg-list slots)))
-    `(defclass ,name ,superclass
-       ,slots
-       ,docstring
-       ,@body)))
+		    (apply #'build-slot-list name slots))))
+    `(closer-mop:ensure-finalized
+      (defclass ,name ,superclass
+	,slots
+	,docstring
+	,@body))))
 
 (defmacro defconstructor (class-name)
   (let* ((class     (find-class class-name))
