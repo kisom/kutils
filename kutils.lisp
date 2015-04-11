@@ -20,8 +20,8 @@ of the list."
 arg. If it's a vector, coerce it to a list. Otherwise, return nil."
   (cond
     ((listp   arg) (copy-list arg))
-    ((atom    arg) (list arg))
     ((vectorp arg) (coerce arg 'list))
+    ((atom    arg) (list arg))
     (t nil)))
 
 (defun partial (fn &rest initial-args)
@@ -76,19 +76,22 @@ additional args provided to the lambda."
 	 (slots (if (null slots)
 		    '()
 		    (apply #'build-slot-list name slots))))
-    `(closer-mop:ensure-finalized
-      (defclass ,name ,superclass
-	,slots
-	,docstring
-	,@body))))
-
-(defmacro defconstructor (class-name)
-  (let* ((class     (find-class class-name))
-	 (slot-list (when class
-		      (mapcar #'closer-mop:slot-definition-name 
-			      (closer-mop:class-slots class)))))
-    `(defun ,(mksymb "make-" class-name) (&key ,@slot-list)
-       (make-instance ',class-name ,@(flatten (build-arg-list slot-list))))))
+    `(progn
+       (closer-mop:ensure-finalized
+	(defclass ,name ,superclass
+	  ,slots
+	  ,docstring
+	  ,@body))
+       (let* ((class     (find-class ',name))
+	      (slot-list (when class
+			   (mapcar #'closer-mop:slot-definition-name 
+				   (closer-mop:class-slots class))))
+	      (class-name ',name))
+	 `(defun ,(kutils:mksymb "make-" (quote class-name))
+	      (cons '&key slot-list)
+	    (make-instance (quote ,class-name)
+			   ,@(kutils:flatten
+			      (build-arg-list slot-list))))))))
 
 ;;; hash-table functions.
 
