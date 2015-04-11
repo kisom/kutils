@@ -56,16 +56,6 @@ additional args provided to the lambda."
   "Create a keyword from its arguments."
   (intern (string (apply #'mksymb args)) "KEYWORD"))
 
-(defun build-slot (class-name slot)
-  (let* ((slot-sym (mksymb slot))
-	 (accessor (mksymb class-name "-" slot-sym)))
-    (list slot-sym
-	  :initarg (mkkw slot-sym)
-	  :accessor accessor)))
-
-(defun build-slot-list (class-name &rest slots)
-  (mapcar (partial #'build-slot class-name) slots))
-
 (defun build-arg-list (slots)
   (mapcar (lambda (slot) (list (mkkw slot) (mksymb slot))) slots))
 
@@ -80,15 +70,15 @@ additional args provided to the lambda."
 		      (list :documentation (first body))))
 	 (supers (mapcar (compose #'class-name #'find-class #'mksymb) superclass))
 	 (body (if docstring (rest body) body))
-	 (slot-list (if (null slots)
-		    '()
-		    (apply #'build-slot-list name slots)))
 	 (ctor (mksymb "make-" name))
 	 (all-slots (flatten (append (inherited-slots superclass) slots))))
     `(progn
        (closer-mop:ensure-finalized
 	(defclass ,name ,supers
-	  ,slot-list
+	  ,(loop for slot in slots collecting
+		(list slot
+		      :initarg (mkkw slot)
+		      :accessor (mksymb name #\- slot)))
 	  ,docstring
 	  ,@body))
        (defun ,ctor (&key ,@(append (inherited-slots
