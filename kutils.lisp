@@ -85,8 +85,6 @@ additional args provided to the lambda."
 		    (apply #'build-slot-list name slots)))
 	 (ctor (mksymb "make-" name))
 	 (all-slots (flatten (append (inherited-slots superclass) slots))))
-    
-    (format t "Supers: ~A~%" supers)
     `(progn
        (closer-mop:ensure-finalized
 	(defclass ,name ,supers
