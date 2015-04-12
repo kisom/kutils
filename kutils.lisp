@@ -56,6 +56,16 @@ additional args provided to the lambda."
   "Create a keyword from its arguments."
   (intern (string (apply #'mksymb args)) "KEYWORD"))
 
+(defun build-slot (class-name slot)
+  (let* ((slot-sym (mksymb slot))
+	 (accessor (mksymb class-name "-" slot-sym)))
+    (list slot-sym
+	  :initarg (mkkw slot-sym)
+	  :accessor accessor)))
+
+(defun build-slot-list (class-name &rest slots)
+  (mapcar (partial #'build-slot class-name) slots))
+
 (defun build-arg-list (slots)
   (mapcar (lambda (slot) (list (mkkw slot) (mksymb slot))) slots))
 
@@ -63,28 +73,39 @@ additional args provided to the lambda."
   (mapcar #'closer-mop:slot-definition-name
 	  (flatten
 	   (mapcar #'closer-mop:class-slots
-		   (mapcar #'find-class supers)))))
+		   (mapcar (lambda (cls) (find-class cls t nil)) supers)))))
 
-(defmacro defclass! (name superclass slots &body body)
-  (let* ((docstring (when (stringp (first body))
-		      (list :documentation (first body))))
-	 (supers (mapcar (compose #'class-name #'find-class #'mksymb) superclass))
+(defun superclasses (superclasses)
+  (mapcar #'class-name
+	  (mapcar (lambda (cls) (find-class cls t nil))
+		  superclasses)))
+
+(defmacro defclass! (name superclass-spec slots &body body)
+  "Defines a new class and default constructor for name, based on the
+superclasses and slots provided. If the first argument to body is a
+string, it will be used as the class's docstring."
+  (let* ((name (mksymb name))
+	 (docstring (if (stringp (first body))
+		      (list :documentation (first body))
+		      (list :documentation (format nil"Automatically generated class."))))
+	 (supers (superclasses superclass-spec))
 	 (body (if docstring (rest body) body))
 	 (ctor (mksymb "make-" name))
-	 (all-slots (flatten (append (inherited-slots superclass) slots))))
+	 (all-slots (flatten (append (inherited-slots supers) slots))))
+    (format t "supers: ~A~%" supers)
     `(progn
        (closer-mop:ensure-finalized
 	(defclass ,name ,supers
 	  ,(loop for slot in slots collecting
-		(list slot
-		      :initarg (mkkw slot)
-		      :accessor (mksymb name #\- slot)))
+		(list slot :initarg (mksymb slot)
+                      :accessor (mksymb name #\- slot)))
 	  ,docstring
 	  ,@body))
-       (defun ,ctor (&key ,@(append (inherited-slots
-				     superclass)
+       (defun ,ctor (&key ,@(append (inherited-slots supers)
 				    slots))
-	 (make-instance ',name ,@(flatten (build-arg-list all-slots)))))))
+	 (make-instance (find-class ,name t nil)
+			,@(flatten (build-arg-list all-slots))))
+       t)))
 
 ;;; hash-table functions.
 
@@ -165,4 +186,6 @@ value :b, and :c stores the value :d.
     (dolist (elt alist)
       (sethash (car elt) (cdr elt) m))
     m))
+
+
 
