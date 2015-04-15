@@ -101,11 +101,16 @@ string, it will be used as the class's docstring."
                       :accessor (mksymb name #\- slot)))
 	  ,docstring
 	  ,@body))
-       (defun ,ctor (&key ,@(append (inherited-slots supers)
-				    slots))
-	 (make-instance (find-class ,name t nil)
-			,@(flatten (build-arg-list all-slots))))
        t)))
+
+(defun zip (&rest lsts)
+  "Zip together elements from each list: (zip '(a b c) '(1 2 3))
+produces '((a 1) (b 2) (c 3))."
+  (labels ((zip-acc (lsts)
+	     (unless (some #'null lsts)
+	       (cons (mapcar #'car lsts) (zip-acc (mapcar #'cdr lsts))))))
+    (zip-acc lsts)))
+
 
 ;;; hash-table functions.
 
@@ -188,4 +193,14 @@ value :b, and :c stores the value :d.
     m))
 
 
+(defun copy-hash-table (ht)
+  (let ((copied (make-hash-table :equal #'equal)))
+    (maphash (lambda (k v)
+	       (sethash k v copied))
+	     ht)
+    copied))
 
+       ;; (defun ,ctor (&key ,@(append (inherited-slots supers)
+       ;; 				    slots))
+       ;; 	 (make-instance (find-class ,name t nil)
+       ;; 			,@(flatten (build-arg-list all-slots))))
