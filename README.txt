@@ -52,4 +52,4 @@ Miscellanea
 * mksymb
 * mkkw
 * zip
-* qefclass!
+* defclass!
