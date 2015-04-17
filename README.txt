@@ -51,5 +51,5 @@ Miscellanea
 * macroexpand-n
 * mksymb
 * mkkw
-* defclass!
-* defconstructor
+* zip
+* qefclass!
