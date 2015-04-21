@@ -6,6 +6,15 @@
 
 ;;; This file contains various utilities I've written.
 
+(defun take (n lst)
+  "Take n elements from lst."
+  (labels ((rec (n lst acc)
+             (if (or (zerop n) (null lst))
+                 (nreverse acc)
+                 (rec (- n 1) (cdr lst) (cons (car lst) acc)))))
+    (when (> n 0)
+      (rec n lst nil))))
+
 (defun interpose (x sep)
   "Takes a list and a separator, and places separator between element
 of the list."

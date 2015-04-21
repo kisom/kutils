@@ -9,13 +9,14 @@
            #:compose
            #:defmacro! ; Let Over Lambda utilities
            #:interpose ; My utilities
+           #:take
            #:build-list
            #:partial
            #:macroexpand-n
            #:mksymb
            #:mkkw
            #:defclass!
-	   #:zip
+           #:zip
            #:enable-hash-table-reader
            #:hashkeys
            #:sethash
