@@ -10,6 +10,7 @@
            #:defmacro! ; Let Over Lambda utilities
            #:interpose ; My utilities
            #:take
+	   #:drop
            #:build-list
            #:partial
            #:macroexpand-n

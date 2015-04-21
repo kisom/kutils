@@ -15,6 +15,12 @@
     (when (> n 0)
       (rec n lst nil))))
 
+(defun drop (n lst)
+  "Drop n elements from the list."
+  (if (or (<= n 0) (null lst))
+      lst
+      (drop (- n 1) (cdr lst))))
+
 (defun interpose (x sep)
   "Takes a list and a separator, and places separator between element
 of the list."
