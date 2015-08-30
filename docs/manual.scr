@@ -1,0 +1,200 @@
+@begin(section)
+@title(Index)
+
+@b(kutils) is my personal utility library.
+
+@begin(deflist)
+
+@term(Source)
+@begin(def)
+
+The source code may be obtained from
+@link[uri="https://github.com/kisom/kutils/"](Github).
+
+@end(def)
+
+@term(Setup and Usage)
+@begin(def)
+
+@c(kutils) requires
+@link[uri="https://quicklisp.org/"](Quicklisp). The repository should
+be cloned into the @c(local-projects) directory under the Quicklisp
+home.
+
+To use @b(kutils), either add it to the @c(:depends-on) section of
+your project's @c(.asd), or @c(ql:quickload :kutils).
+
+@end(def)
+
+@term(License)
+@begin(def)
+
+@b(kutils) is released under the
+@link[uri="https://raw.githubusercontent.com/kisom/kutils/master/LICENSE"](MIT)
+license.
+
+@end(def)
+@end(deflist)
+
+@end(section)
+
+
+@begin(section)
+@title(Overview)
+
+What Lisp hacker doesn't have their own collection of useful tools and
+idioms? This is the collection of tools I've been finding useful in
+building new programs; some of these contain building blocks from
+books on Lisp, and others I've written. It's probably of little use to
+other people.
+
+There are a few classes of utilities provided:
+
+@begin(list)
+
+@item(Those from Paul Graham's @u(On Lisp). I've collected those that
+have actually ended up being used.)
+
+@item(Those from Doug Hoyte's @u(Let Over Lambda); again, only those
+that have actually been used are provided.)
+
+@item(Hash-table related utilities.)
+
+@item(Vector-related utilities.)
+
+@item(Clojure-inspired utilities. I enjoyed working in Clojure, but
+not enough to keep using it. These utilities are implementations of
+some functions I found useful.)
+
+@item(General purpose utilties that don't fit in elsewhere.)
+
+@end(list)
+
+@end(section)
+
+@begin(section)
+@title(On Lisp utilities)
+
+@cl:with-package[name="kutils"](
+@cl:doc(function mkstr)
+@cl:doc(function symb)
+@cl:doc(function flatten)
+@cl:doc(function compose)
+)
+
+
+@end(section)
+
+
+@begin(section)
+@title(Let Over Lambda utilities)
+
+@cl:with-package[name="kutils"](
+@cl:doc(macro defmacro!))
+
+@end(section)
+
+
+@begin(section)
+@title(Miscellaneous utilities)
+
+@begin(deflist)
+
+@term(General)
+@begin(def)
+@cl:with-package[name="kutils"](
+@cl:doc(macro assoc-val)
+@cl:doc(function build-list)
+@cl:doc(function macroexpand-n)
+@cl:doc(function mksymb)
+@cl:doc(function mkkw)
+@cl:doc(function zip))
+@end(def)
+
+@term(Vector-related)
+@begin(def)
+@cl:with-package[name="kutils"](
+@cl:doc(function new-vector)
+@cl:doc(macro mapv)
+@cl:doc(function build-vector)
+@cl:doc(function extend-vector))
+@end(def)
+
+@term(Clojure-inspired functions)
+@begin(def)
+
+@cl:with-package[name="kutils"](
+@cl:doc(function interpose)
+@cl:doc(function take)
+@cl:doc(function drop)
+@cl:doc(function partial)
+)
+@end(def)
+
+@end(deflist)
+@end(section)
+
+
+@begin(section)
+@title(Hash table utilities)
+
+@begin(deflist)
+
+@term(Reader macro)
+
+@begin(def)
+
+The package has an optional reader macro that attempts to make
+Clojure-like hash table literals in the reader. For example:
+
+@begin(code)
+CL-USER> (gethash :foo  #{:foo :bar :baz :quux}#)
+:BAR
+T
+CL-USER> (let ((m #{:foo :bar :baz :quux}#))
+           (sethash :baz :woz m)
+           (hashkeys m))
+(:BAZ :FOO)
+CL-USER> (hashtable-to-alist #{:a :b :c :d}#)
+((:C . :D) (:A . :B))
+@end(code)
+
+@cl:with-package[name="kutils"](
+@cl:doc(function enable-hash-table-reader))
+@end(def)
+
+@term(Table manipulation)
+@begin(def)
+@cl:with-package[name="kutils"](
+@cl:doc(function hashkeys)
+@cl:doc(macro sethash)
+@cl:doc(function new-hash-table)
+@cl:doc(function hash-table-to-alist)
+@cl:doc(function copy-hash-table))
+@end(def)
+
+@term(@c(with-new-hash-table))
+@begin(def)
+
+@c(with-new-hash-table) is a convenience macro for creating a new
+hash table and acting on it.
+
+In the simplest case, it takes a single symbol and a body:
+
+@begin(code)
+@include[path=ht-example.lisp start=1 end=7]()
+@end(code)
+
+If more than one symbol is provided, the resulting hash tables
+will be returned as an alist:
+
+@begin(code)
+@include[path=ht-example.lisp start=9 end=22]()
+@end(code)
+
+@cl:with-package[name="kutils"](
+@cl:doc(macro with-new-hash-table))
+@end(def)
+@end(deflist)
+
+@end(section)

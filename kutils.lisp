@@ -4,6 +4,12 @@
 
 ;;; "kutils" goes here. Hacks and glory await!
 
+(defun build-docs ()
+  "Generate the package documentation using Codex."
+  (unless (find-package :codex)
+    (ql:quickload :codex))
+  (codex:document :kutils))
+
 ;;; This file contains various utilities I've written.
 
 (defun take (n lst)
@@ -72,8 +78,12 @@ additional args provided to the lambda."
   (intern (string (apply #'mksymb args)) "KEYWORD"))
 
 (defun zip (&rest lsts)
-  "Zip together elements from each list: (zip '(a b c) '(1 2 3))
-produces '((a 1) (b 2) (c 3))."
+  "Zip together elements from each list. For example,
+
+@begin(code)
+* (zip '(a b c) '(1 2 3))
+'((a 1) (b 2) (c 3)).
+@end(code)"
   (labels ((zip-acc (lsts)
 	     (unless (some #'null lsts)
 	       (cons (mapcar #'car lsts) (zip-acc (mapcar #'cdr lsts))))))
@@ -119,3 +129,4 @@ new vector is adjustable and has a fill pointer set."
   "Return the value of @c(item) in @c(alist). @c(key-args) should
 contain any additional keyword arguments to @c(assoc)."
   `(first (assoc ,item ,alist ,@key-args)))
+
