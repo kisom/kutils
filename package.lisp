@@ -27,6 +27,7 @@
            #:build-vector
 	   #:extend-vector
 	   #:assoc-val
+	   #:cartprod2
 
 	   ;; kutils-hash-tables.lisp
            #:enable-hash-table-reader

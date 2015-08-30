@@ -105,6 +105,8 @@ some functions I found useful.)
 @cl:with-package[name="kutils"](
 @cl:doc(macro assoc-val)
 @cl:doc(function build-list)
+@cl:doc(function cartprod2)
+@code(@include[path=examples.lisp start=1 end=5]())
 @cl:doc(function macroexpand-n)
 @cl:doc(function mksymb)
 @cl:doc(function mkkw)
@@ -147,17 +149,7 @@ some functions I found useful.)
 The package has an optional reader macro that attempts to make
 Clojure-like hash table literals in the reader. For example:
 
-@begin(code)
-CL-USER> (gethash :foo  #{:foo :bar :baz :quux}#)
-:BAR
-T
-CL-USER> (let ((m #{:foo :bar :baz :quux}#))
-           (sethash :baz :woz m)
-           (hashkeys m))
-(:BAZ :FOO)
-CL-USER> (hashtable-to-alist #{:a :b :c :d}#)
-((:C . :D) (:A . :B))
-@end(code)
+@code(@include[path=reader.lisp]())
 
 @cl:with-package[name="kutils"](
 @cl:doc(function enable-hash-table-reader))

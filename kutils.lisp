@@ -4,12 +4,6 @@
 
 ;;; "kutils" goes here. Hacks and glory await!
 
-(defun build-docs ()
-  "Generate the package documentation using Codex."
-  (unless (find-package :codex)
-    (ql:quickload :codex))
-  (codex:document :kutils))
-
 ;;; This file contains various utilities I've written.
 
 (defun take (n lst)
@@ -128,5 +122,14 @@ new vector is adjustable and has a fill pointer set."
 (defmacro assoc-val (item alist &rest key-args)
   "Return the value of @c(item) in @c(alist). @c(key-args) should
 contain any additional keyword arguments to @c(assoc)."
-  `(first (assoc ,item ,alist ,@key-args)))
+  `(rest (assoc ,item ,alist ,@key-args)))
 
+
+(defun cartprod2 (a b)
+  "Produce the cartesian product of the two lists."
+  (apply #'concatenate 'list
+	 (mapcar (lambda (x)
+		   (mapcar (lambda (y)
+			     (cons x y))
+			   b))
+		  a)))
