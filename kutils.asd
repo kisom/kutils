@@ -9,5 +9,6 @@
   :components ((:file "package")
 	       (:file "on")
 	       (:file "lol")
-               (:file "kutils")))
+               (:file "kutils")
+               (:file "kutils-hash-tables")))
 

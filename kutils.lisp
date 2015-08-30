@@ -127,95 +127,28 @@ produces '((a 1) (b 2) (c 3))."
     (zip-acc lsts)))
 
 
-;;; hash-table functions.
+(defun read-file-string (path)
+  "Read the contents of the file at path as a string."
+  (with-open-file (s path)
+    (let ((data (make-string (file-length s))))
+      (read-sequence data s)
+      data)))
 
+(defun new-vector ()
+  "Create a new, empty, adjustable vector with fill pointer."
+  (make-array 0 :adjustable t :fill-pointer t))
 
-(defun |#{-reader| (stream sub-char numarg)
-  (declare (ignore sub-char numarg))
-  (let ((m     (make-hash-table :test 'equal))
-	(k     nil)
-	(v     nil)
-	(key-p t))
-    (labels ((finalise-read (x)
-	       (reverse (concatenate 'string x)))
-	     (finalise-kv-pair ()
-	       (if key-p
-		   (unless (null k)
-		     (setq key-p nil
-			   k     (read-from-string (finalise-read k))))
-		   (unless (null v)
-		     (setq key-p t
-			   v     (read-from-string (finalise-read v)))
-		     (setf (gethash k m) v)
-		     (setq k nil v nil))))
-	     (reading-complete-p ()
-	       (and (null v)
-		    (not
-		     (null k)))))
-      (do ((prev (read-char stream) curr)
-	   (curr (read-char stream) (read-char stream)))
-	  ((and (char= prev #\}) (char= curr #\#)))
-	(if (char= prev #\Space)
-	    (finalise-kv-pair)
-	    (if key-p
-		(push prev k)
-		(push prev v))))
-      (if (reading-complete-p)
-	  (error "Mismatched key value pairs.")
-	  (progn 
-	    (finalise-kv-pair)
-	    m)))))
+(defmacro mapv (fn &rest vecs)
+  "Utility to map @c(fn) over the vectors @c(vecs), producing a vector."
+  `(map 'vector ,fn ,@vecs))
+    
+(defun vectorise (lst)
+  "Ensure @c(lst) is a vector."
+  (cond ((listp lst) (apply #'vector lst))
+        ((vectorp lst) lst)
+        (otherwise (mapv #'identity lst))))
 
-(defun enable-hash-table-reader ()
-  "Enables the reader macro #{}# for hash-tables. The resulting
-hash-table will use #'equal for equality. For example,
-
-#{:a :b :c :d}#
-
-will create a hash-table with the keys :a and :c. :a stores the
-value :b, and :c stores the value :d.
-"
-  (set-dispatch-macro-character
-   #\# #\{ #'|#{-reader|))
-
-(defun sethash (k v m)
-  "Convenience notation for setting a value in a hash table."
-  (setf (gethash k m) v))
-
-(defun hashkeys (m)
-  "Returns a list of the keys in the hash table."
-  (let ((keys '()))
-    (maphash (lambda (k v)
-	       (declare (ignore v))
-	       (push k keys))
-	     m)
-    keys))
-
-(defun hash-table-to-alist (m)
-  "Converts the hash-table given to an alist of (key . value) pairs."
-  (let ((alist '()))
-    (maphash (lambda (k v)
-	       (let ((elt (cons k v)))
-		 (setf alist (cons elt alist))))
-	     m)
-    alist))
-
-(defun alist-to-hash-table (alist)
-  "Converts the alist to a hash-table."
-  (let ((m (make-hash-table :test 'equal)))
-    (dolist (elt alist)
-      (sethash (car elt) (cdr elt) m))
-    m))
-
-
-(defun copy-hash-table (ht)
-  (let ((copied (make-hash-table :equal #'equal)))
-    (maphash (lambda (k v)
-	       (sethash k v copied))
-	     ht)
-    copied))
-
-       ;; (defun ,ctor (&key ,@(append (inherited-slots supers)
-       ;; 				    slots))
-       ;; 	 (make-instance (find-class ,name t nil)
-       ;; 			,@(flatten (build-arg-list all-slots))))
+(defmacro assoc-val (item alist &rest key-args)
+  "Return the value of @c(item) in @c(alist). @c(key-args) should
+contain any additional keyword arguments to @c(assoc)."
+  `(first (assoc ,item ,alist ,@key-args)))

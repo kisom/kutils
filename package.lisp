@@ -2,13 +2,18 @@
 
 (defpackage #:kutils
   (:use #:cl)
-  (:export #:mkstr     ; On Lisp utilities
+  (:export ;; on.lisp : utilities from Graham's On Lisp.
+           #:mkstr
            #:symb
            #:group
            #:flatten
            #:compose
-           #:defmacro! ; Let Over Lambda utilities
-           #:interpose ; My utilities
+
+	   ;; lol.lisp : utilities from Let Over Lambda
+           #:defmacro!
+
+	   ;; kutils.lisp
+           #:interpose
            #:take
 	   #:drop
            #:build-list
@@ -18,9 +23,17 @@
            #:mkkw
            #:defclass!
            #:zip
+           #:new-vector
+           #:mapv
+           #:vectorise
+	   #:assoc-val
+
+	   ;; kutils-hash-tables.lisp
            #:enable-hash-table-reader
            #:hashkeys
            #:sethash
            #:hash-table-to-alist
            #:alist-to-hash-table
+	   #:new-hash-table
+	   #:with-new-hash-table
            ))
