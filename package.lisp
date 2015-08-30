@@ -25,7 +25,7 @@
            #:zip
            #:new-vector
            #:mapv
-           #:vectorise
+           #:build-vector
 	   #:assoc-val
 
 	   ;; kutils-hash-tables.lisp

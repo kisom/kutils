@@ -141,12 +141,12 @@ produces '((a 1) (b 2) (c 3))."
 (defmacro mapv (fn &rest vecs)
   "Utility to map @c(fn) over the vectors @c(vecs), producing a vector."
   `(map 'vector ,fn ,@vecs))
-    
-(defun vectorise (lst)
-  "Ensure @c(lst) is a vector."
-  (cond ((listp lst) (apply #'vector lst))
-        ((vectorp lst) lst)
-        (otherwise (mapv #'identity lst))))
+
+(defun build-vector (arg)
+  "If @c(arg) is an atom, create a vector for it."
+  (cond ((listp arg) (apply #'vector arg))
+        ((vectorp arg) arg)
+        (otherwise (mapv #'identity arg))))
 
 (defmacro assoc-val (item alist &rest key-args)
   "Return the value of @c(item) in @c(alist). @c(key-args) should
