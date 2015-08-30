@@ -21,19 +21,20 @@
            #:macroexpand-n
            #:mksymb
            #:mkkw
-           #:defclass!
            #:zip
            #:new-vector
            #:mapv
            #:build-vector
+	   #:extend-vector
 	   #:assoc-val
 
 	   ;; kutils-hash-tables.lisp
            #:enable-hash-table-reader
            #:hashkeys
            #:sethash
-           #:hash-table-to-alist
-           #:alist-to-hash-table
 	   #:new-hash-table
 	   #:with-new-hash-table
+	   #:copy-hash-table
+           #:hash-table-to-alist
+           #:alist-to-hash-table
            ))

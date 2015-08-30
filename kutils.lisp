@@ -71,53 +71,6 @@ additional args provided to the lambda."
   "Create a keyword from its arguments."
   (intern (string (apply #'mksymb args)) "KEYWORD"))
 
-(defun build-slot (class-name slot)
-  (let* ((slot-sym (mksymb slot))
-	 (accessor (mksymb class-name "-" slot-sym)))
-    (list slot-sym
-	  :initarg (mkkw slot-sym)
-	  :accessor accessor)))
-
-(defun build-slot-list (class-name &rest slots)
-  (mapcar (partial #'build-slot class-name) slots))
-
-(defun build-arg-list (slots)
-  (mapcar (lambda (slot) (list (mkkw slot) (mksymb slot))) slots))
-
-(defun inherited-slots (supers)
-  (mapcar #'closer-mop:slot-definition-name
-	  (flatten
-	   (mapcar #'closer-mop:class-slots
-		   (mapcar (lambda (cls) (find-class cls t nil)) supers)))))
-
-(defun superclasses (superclasses)
-  (mapcar #'class-name
-	  (mapcar (lambda (cls) (find-class cls t nil))
-		  superclasses)))
-
-(defmacro defclass! (name superclass-spec slots &body body)
-  "Defines a new class and default constructor for name, based on the
-superclasses and slots provided. If the first argument to body is a
-string, it will be used as the class's docstring."
-  (let* ((name (mksymb name))
-	 (docstring (if (stringp (first body))
-		      (list :documentation (first body))
-		      (list :documentation (format nil"Automatically generated class."))))
-	 (supers (superclasses superclass-spec))
-	 (body (if docstring (rest body) body))
-	 (ctor (mksymb "make-" name))
-	 (all-slots (flatten (append (inherited-slots supers) slots))))
-    (format t "supers: ~A~%" supers)
-    `(progn
-       (closer-mop:ensure-finalized
-	(defclass ,name ,supers
-	  ,(loop for slot in slots collecting
-		(list slot :initarg (mksymb slot)
-                      :accessor (mksymb name #\- slot)))
-	  ,docstring
-	  ,@body))
-       t)))
-
 (defun zip (&rest lsts)
   "Zip together elements from each list: (zip '(a b c) '(1 2 3))
 produces '((a 1) (b 2) (c 3))."
@@ -143,10 +96,24 @@ produces '((a 1) (b 2) (c 3))."
   `(map 'vector ,fn ,@vecs))
 
 (defun build-vector (arg)
-  "If @c(arg) is an atom, create a vector for it."
+  "If @c(arg) is an atom, return it as a list. If it's a list,
+coerce it to a vector. If it's a vector, return the
+vector. Otherwise, attempt to map it into a vector."
   (cond ((listp arg) (apply #'vector arg))
         ((vectorp arg) arg)
-        (otherwise (mapv #'identity arg))))
+	((atom arg)
+	 (let ((v (new-vector)))
+	   (vector-push-extend arg v)
+	   v))	
+        (t (mapv #'identity arg))))
+
+(defun extend-vector (v)
+  "Create a new vector from the contents of its argument where the
+new vector is adjustable and has a fill pointer set."
+  (make-array (length v)
+	      :adjustable t
+	      :initial-contents v
+	      :fill-pointer t))
 
 (defmacro assoc-val (item alist &rest key-args)
   "Return the value of @c(item) in @c(alist). @c(key-args) should

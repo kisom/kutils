@@ -40,64 +40,52 @@
 	    m)))))
 
 (defun enable-hash-table-reader ()
-  "Enables the reader macro #{}# for hash-tables. The resulting
-hash-table will use #'equal for equality. For example,
+  "Enables the reader macro @c(#{}#) for hash-tables. The resulting
+hash-table will use @c(#'equal) for equality. For example,
 
+@begin[lang=lisp](code)
 #{:a :b :c :d}#
+@end(code)
 
-will create a hash-table with the keys :a and :c. :a stores the
-value :b, and :c stores the value :d.
+will create a hash-table with the keys @c(:a) and @c(:c); :@c(a)
+stores the value @c(:b), and @c(:c) stores the value @c(:d).
 "
   (set-dispatch-macro-character
    #\# #\{ #'|#{-reader|))
 
-(defun sethash (k v m)
+(defmacro sethash (k v ht)
   "Convenience notation for setting a value in a hash table."
-  (setf (gethash k m) v))
+  `(setf (gethash ,k ,ht) ,v))
 
-(defun hashkeys (m)
-  "Returns a list of the keys in the hash table."
+(defun hashkeys (ht)
+  "Returns a list of the keys in a hash table."
   (let ((keys '()))
     (maphash (lambda (k v)
 	       (declare (ignore v))
 	       (push k keys))
-	     m)
+	     ht)
     keys))
 
-(defun hash-table-to-alist (m)
-  "Converts the hash-table given to an alist of (key . value) pairs."
+(defun hash-table-to-alist (ht)
+  "Converts the hash-table argument to an alist of @c((key . value))
+pairs."
   (let ((alist '()))
     (maphash (lambda (k v)
 	       (let ((elt (cons k v)))
 		 (setf alist (cons elt alist))))
-	     m)
+	     ht)
     alist))
 
-(defun alist-to-hash-table (alist)
-  "Converts the alist to a hash-table."
-  (let ((m (make-hash-table :test 'equal)))
-    (dolist (elt alist)
-      (sethash (car elt) (cdr elt) m))
-    m))
-
-
-(defun copy-hash-table (ht)
-  (let ((copied (make-hash-table :equal #'equal)))
-    (maphash (lambda (k v)
-	       (sethash k v copied))
-	     ht)
-    copied))
 
 (defun new-hash-table ()
-  "Create a new hash table with the #'equal function as its test."
+  "Create a new hash table with the @c(#'equal) function as its test."
   (make-hash-table :test #'equal))
 
 (defmacro with-new-hash-table (htsyms &body body)
-  "with-new-hash-table creates and binds a new hash table for each of
-the symbols in htsyms, executing inside a let form, and returns the
-hash table(s). If only one hash table is provided, return it as a
-single element; otherwise, return an alist of the symbol names and
-hash tables."
+  "Create and bind a new hash table for each of the symbols in @c(htsyms),
+executing inside a let form, and returns the hash table(s). If only
+one hash table is provided, return it as a single element; otherwise,
+return an alist of the symbol names and hash tables."
   `(let ,(mapcar (lambda (sym)
                    (list sym (list 'new-hash-table))) htsyms)
      ,@body
@@ -106,3 +94,17 @@ hash tables."
 	  `(mapcar #'cons
 		  (mapcar #'mksymb (quote ,htsyms))
 		  (list ,@htsyms)))))
+
+(defun alist-to-hash-table (alist)
+  "Converts the alist to a hash-table."
+  (with-new-hash-table (ht)
+    (dolist (elt alist)
+      (sethash (car elt) (cdr elt) ht))))
+
+(defun copy-hash-table (ht)
+  "Shallow copy @c(ht)."
+  (with-new-hash-table (copied)
+    (maphash (lambda (k v)
+	       (sethash k v copied))
+	     ht)))
+
