@@ -28,6 +28,8 @@
 	   #:extend-vector
 	   #:assoc-val
 	   #:cartprod2
+	   #:empty-or-nil-p
+	   #:effector
 
 	   ;; kutils-hash-tables.lisp
            #:enable-hash-table-reader

@@ -133,3 +133,20 @@ contain any additional keyword arguments to @c(assoc)."
 			     (cons x y))
 			   b))
 		  a)))
+
+(defun empty-or-nil-p (arg)
+  "Is @c(arg) null, or does it represent an empty sequence? Returns
+NIL if @c(arg) is not a nil or a sequence."
+  (cond ((null arg) t)
+	((stringp arg) (string-equal "" arg))
+	((vectorp arg) (zerop (length arg)))
+	((listp arg)   (null (rest arg)))
+	(t nil)))
+
+(defun effector (&rest fns)
+  "An effector returns a function that calls all the functions
+supplied to @c(effector) on its input. This is usually useful for
+effectful code, such as logging."
+  (lambda (&rest args)
+    (dolist (fn fns)
+      (apply fn args))))
