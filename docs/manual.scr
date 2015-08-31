@@ -78,6 +78,7 @@ some functions I found useful.)
 @cl:with-package[name="kutils"](
 @cl:doc(function mkstr)
 @cl:doc(function symb)
+@cl:doc(function group)
 @cl:doc(function flatten)
 @cl:doc(function compose)
 )
@@ -107,6 +108,8 @@ some functions I found useful.)
 @cl:doc(function build-list)
 @cl:doc(function cartprod2)
 @code(@include[path=examples.lisp start=1 end=5]())
+@cl:doc(function effector)
+@cl:doc(function empty-or-nil-p)
 @cl:doc(function macroexpand-n)
 @cl:doc(function mksymb)
 @cl:doc(function mkkw)
@@ -188,5 +191,157 @@ will be returned as an alist:
 @cl:doc(macro with-new-hash-table))
 @end(def)
 @end(deflist)
+
+@end(section)
+
+@begin(section)
+@title(Symbol index)
+
+Alphabetical list of all exported symbols.
+
+@begin(list)
+
+@item(@c(alist-to-hash-table) is a function defined in
+@c(kutils-hash-tables.lisp), described in "Hash-table related
+utilities".)
+
+@item(@c(assoc-val) is a macro defined in @c(kutils.lisp), described
+in "Miscellaneous utilities" under "General".)
+
+@item(@c(build-list) is a function defined in @c(kutils.lisp),
+described in "Miscellaneous utilities" under "General".)
+
+@item(@c(build-vector) is a function defined in @c(kutils.lisp),
+described in "Miscellaneous utilities" under "Vector-related".)
+
+@item(@c(cartprod2) is a function defined in @c(kutils.lisp),
+described in "Miscellaneous utilities" under "General".)
+
+@item(@c(compose) is a function defined in @c(on.lisp), described in
+"On Lisp utilities".)
+
+@item(@c(copy-hash-table) is a function defined in
+@c(kutils-hash-tables.lisp), described in "Hash-table related
+utilities".)
+
+@item(@c(defmacro!) is a function defined in @c(lol.lisp), described
+in "Let Over Lambda utilities".)
+
+@item(@c(drop) is a function defined in @c(kutils.lisp), described in
+"Miscellaneous utilities" under "Clojure-inspired functions".)
+
+@item(@c(effector) is a function defined in @c(kutils.lisp),
+described in "Miscellaneous utilities" under "General".)
+
+@item(@c(empty-or-nil-p) is a function defined in @c(kutils.lisp),
+described in "Miscellaneous utilities" under "General".)
+
+@item(@c(enable-hash-table-reader) is a function defined in
+@c(kutils-hash-tables.lisp), described in "Hash-table related
+utilities.)
+
+@item(@c(extend-vector) is a function defined in @c(kutils.lisp),
+described in "Miscellaneous utilities" under "Vector-related".)
+
+@item(@c(flatten) is a function defined in @c(on.lisp), described in
+"On Lisp utilities".)
+
+@item(@c(group) is a function defined in @c(kutils.lisp), described in
+"On Lisp utilities".)
+
+@item(@c(hash-table-to-alist) is a function defined in
+@c(kutils-hash-tables.lisp), described in "Hash-table related
+utilities".)
+
+@item(@c(hashkeys) is a function defined in
+@c(kutils-hash-tables.lisp), described in "Hash-table related
+utilities".)
+
+@item(@c(interpose) is a function defined in @c(kutils.lisp),
+described in "Miscellaneous utilities" under "Clojure-inspired
+functions".)
+
+@item(@c(macroexpand-n) is a function defined in @c(kutils.lisp),
+described in "Miscellaneous utilities" under "General".)
+
+@item(@c(mapv) is a macro defined in @c(kutils.lisp), described in
+"Miscellaneous utilities" under "Vector-related".)
+
+@item(@c(mkkw) is a function defined in @c(kutils.lisp), described in
+"Miscellaneous utilities" under "General".)
+
+@item(@c(mkstr) is a function defined in @c(on.lisp), described in "On
+Lisp utilities".)
+
+@item(@c(mksymb) is a function defined in @c(kutils.lisp), described
+in "Miscellaneous utilities" under "General".)
+
+@item(@c(new-hash-table) is a function defined in
+@c(kutils-hash-tables.lisp), described in "Hash-table related
+utilities".)
+
+@item(@c(new-vector) is a function defined in @c(kutils.lisp),
+described in "Miscellaneous utilities" under "Vector-related".)
+
+@item(@c(partial) is a function defined in @c(kutils.lisp), described
+in "Miscellaneous utilities" under "Clojure-inspired functions".)
+
+@item(@c(sethash) is a macro defined in @c(kutils-hash-tables.lisp),
+described in "Hash-table related utilities".)
+
+@item(@c(symb) is a function defined in @c(on.lisp), described in "On
+Lisp utilities".)
+
+@item(@c(take) is a function defined in @c(kutils.lisp), described in
+"Miscellaneous utilities" under "Clojure-inspired functions".)
+
+@item(@c(with-new-hash-table) is a macro defined in
+@c(kutils-hash-tables.lisp), described in "Hash-table related
+utilities".)
+
+@item(@c(zip) is a function defined in @c(kutils.lisp), described in
+"Miscellaneous utilities" under "General".)
+
+@end(list)
+@end(section)
+
+@begin(section)
+@title(Alphabetical list)
+
+Alphabetical documentation for all exported symbols.
+
+@cl:with-package[name="kutils"](
+
+@cl:doc(function alist-to-hash-table)
+@cl:doc(macro assoc-val)
+@cl:doc(function build-list)
+@cl:doc(function build-vector)
+@cl:doc(function cartprod2)
+@cl:doc(function compose)
+@cl:doc(function copy-hash-table)
+@cl:doc(macro defmacro!)
+@cl:doc(function drop)
+@cl:doc(function effector)
+@cl:doc(function empty-or-nil-p)
+@cl:doc(function enable-hash-table-reader)
+@cl:doc(function extend-vector)
+@cl:doc(function flatten)
+@cl:doc(function group)
+@cl:doc(function hash-table-to-alist)
+@cl:doc(function hashkeys)
+@cl:doc(function interpose)
+@cl:doc(function macroexpand-n)
+@cl:doc(macro mapv)
+@cl:doc(function mkkw)
+@cl:doc(function mkstr)
+@cl:doc(function mksymb)
+@cl:doc(function new-hash-table)
+@cl:doc(function new-vector)
+@cl:doc(function partial)
+@cl:doc(macro sethash)
+@cl:doc(function symb)
+@cl:doc(function take)
+@cl:doc(macro with-new-hash-table)
+@cl:doc(function zip))
 
 @end(section)
