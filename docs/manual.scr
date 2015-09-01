@@ -214,6 +214,10 @@ based on the results of the bindings. This is useful for reducing
 common boilerplate where a let is used to perform some operations, and
 some code should be executed based on the results of those bindings.
 
+For example, from @c(kmop/kmop.lisp):
+
+@code(@include[path="whenlet.lisp"]())
+
 @cl:with-package[name="kutils"](
 @cl:doc(macro condlet)
 @cl:doc(macro condlet*)
