@@ -4,7 +4,7 @@
 
 ;;; Various utility macros.
 
-(defmacro when (bindings &body body)
+(defmacro whenlet (bindings &body body)
   "Evaluate the bindings in a let form; if they all evaluate to T,
 evaluate @c(body) in an implicit @c(progn)."
   (let ((bindings (if (listp (first bindings)) bindings (list bindings))))

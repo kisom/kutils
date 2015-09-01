@@ -11,5 +11,5 @@
 	       (:file "lol")
                (:file "kutils")
                (:file "kutils-hash-tables")
-	       (:file "macros.lisp")))
+	       (:file "macros")))
 
