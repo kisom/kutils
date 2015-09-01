@@ -68,6 +68,12 @@ some functions I found useful.)
 
 @item(General purpose utilties that don't fit in elsewhere.)
 
+@iterm(@c(let)-based macros.)
+
+@iterm(Macros that simplify common file operations.)
+
+@item(Metaobject utilities.)
+
 @end(list)
 
 @end(section)
