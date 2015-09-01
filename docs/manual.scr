@@ -226,8 +226,8 @@ some code should be executed based on the results of those bindings.
 These macros abstract common operations on files.
 
 @cl:with-package[name="kutils"](
-@cl:doc(macro read-file-string)
-@cl:doc(macro with-string-output-to-file)
+@cl:doc(macro! read-file-as-string)
+@cl:doc(macro! with-string-output-to-file)
 @cl:doc(macro with-read-from-file)
 @cl:doc(macro with-write-to-file)
 )
@@ -342,7 +342,7 @@ described in "Miscellaneous utilities" under "Vector-related".)
 @item(@c(partial) is a function defined in @c(kutils.lisp), described
 in "Miscellaneous utilities" under "Clojure-inspired functions".)
 
-@item(@c(read-file-string) is a macro defined in @c(macros.lisp),
+@item(@c(read-file-as-string) is a macro defined in @c(macros.lisp),
 described in "Macros" under "File macros".)
 
 @item(@c(sethash) is a macro defined in @c(kutils-hash-tables.lisp),
@@ -422,7 +422,7 @@ Alphabetical documentation for all exported symbols.
 @cl:doc(function new-hash-table)
 @cl:doc(function new-vector)
 @cl:doc(function partial)
-@cl:doc(macro read-file-string)
+@cl:doc(macro! read-file-as-string)
 @cl:doc(macro sethash)
 @cl:doc(function symb)
 @cl:doc(function take)
@@ -432,7 +432,7 @@ Alphabetical documentation for all exported symbols.
 @cl:doc(macro whenlet*)
 @cl:doc(macro with-new-hash-table)
 @cl:doc(macro with-read-from-file)
-@cl:doc(macro with-string-output-to-file)
+@cl:doc(macro! with-string-output-to-file)
 @cl:doc(macro with-write-to-file)
 @cl:doc(function zip))
 

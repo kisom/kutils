@@ -92,25 +92,23 @@ resulting string to @c(path). Any remaining arguments are sent to
        (let ((o!out (mkstr ,@body)))
 	 (princ o!out g!s)))))
 
-(defmacro with-read-from-file (path &rest args &key (direction nil directionp)
-						 &allow-other-keys)
-  "Read the form contained in @c(path), with any remaining arguments
-passed to @c(with-open-file)."
-  (let ((s (gensym)))
-    (declare (ignore direction))
-    (when directionp
-      (error "Specifying :direction is not allowed with READ-FILE."))
-    `(with-open-file (,s ,path ,@args)
-       (with-standard-io-syntax
-	 (read ,s)))))
+(defmacro with-read-from-file ((stream path &rest args &key (direction :input directionp)
+				       &allow-other-keys)
+							 &body body)
+  "Open @c(path) for reading, bound to @c(stream), with any remaining arguments
+passed to @c(with-open-file), and execute @c(body)."
+  (when directionp
+    (error "Specifying :direction is not allowed with READ-FILE."))
+  `(with-open-file (,stream ,path :direction ,direction ,@args)
+     ,@body))
 
 (defmacro with-write-to-file ((stream path &rest args
 			      &key (direction :output directionp)
 			      &allow-other-keys)
 		      &body body)
   "Evaluate @c(body) with the file at @c(path) opened and bound to the
-  value of @c(stream). Any remaining keyword arguments are passed to
-  @c(with-open-file)."
+value of @c(stream). Any remaining keyword arguments are passed to
+@c(with-open-file)."
   (when directionp
     (error "Specifying :direction is not allowed with WRITE-FILE."))
   `(with-open-file (,stream ,path :direction ,direction ,@args)

@@ -50,7 +50,7 @@
 	   #:iflet*
 	   #:condlet
 	   #:condlet*
-	   #:read-file-string
+	   #:read-file-as-string
 	   #:with-string-output-to-file
 	   #:with-read-from-file
 	   #:with-write-to-file
