@@ -133,6 +133,7 @@ some functions I found useful.)
 @cl:doc(function take)
 @cl:doc(function drop)
 @cl:doc(function partial)
+@cl:doc(function partition)
 )
 @end(def)
 
@@ -395,6 +396,9 @@ described in "Miscellaneous utilities" under "Vector-related".)
 @item(@c(partial) is a function defined in @c(kutils.lisp), described
 in "Miscellaneous utilities" under "Clojure-inspired functions".)
 
+@item(@c(partition) is a function defined in @c(kutils.lisp), described
+in "Miscellaneous utilities" under "Clojure-inspired functions".)
+
 @item(@c(read-file-as-string) is a macro defined in @c(macros.lisp),
 described in "Macros" under "File macros".)
 
@@ -475,6 +479,7 @@ Alphabetical documentation for all exported symbols.
 @cl:doc(function new-hash-table)
 @cl:doc(function new-vector)
 @cl:doc(function partial)
+@cl:doc(function partition)
 @cl:doc(macro sethash)
 @cl:doc(function symb)
 @cl:doc(function take)

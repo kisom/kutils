@@ -30,6 +30,7 @@
 	   #:cartprod2
 	   #:empty-or-nil-p
 	   #:effector
+	   #:partition
 
 	   ;; kutils-hash-tables.lisp
            #:enable-hash-table-reader

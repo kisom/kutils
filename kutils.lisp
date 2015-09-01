@@ -144,3 +144,30 @@ effectful code, such as logging."
       (apply fn args))))
 
 
+(defun partition-list (test lst)
+  (let (match no-match)
+    (dolist (x lst)
+      (if (funcall test x)
+	  (push x match)
+	  (push x no-match)))
+    (vector match no-match)))
+
+(defun partition-vector (test vec)
+  (let ((match (new-vector))
+	(no-match (new-vector)))
+    (dotimes (i (length vec))
+      (let ((x (aref vec i)))
+	(if (funcall test x)
+	    (vector-push-extend x match)
+	    (vector-push-extend x no-match))))
+    (list match no-match)))
+
+(defun partition (pred seq)
+  "Split @c(seq) into a pair of sequences with @c(pred) : the first of
+the pair are those elements satisfying @c(pred), and the second are
+those that do not satisfy @c(pred)."
+  (cond
+    ((listp seq)   (partition-list pred seq))
+    ((vectorp seq) (partition-vector pred seq))
+    (t (error "Values of type ~A cannot be partitioned."
+	      (type-of seq)))))
