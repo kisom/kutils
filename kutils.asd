@@ -10,5 +10,6 @@
 	       (:file "on")
 	       (:file "lol")
                (:file "kutils")
-               (:file "kutils-hash-tables")))
+               (:file "kutils-hash-tables")
+	       (:file "macros.lisp")))
 
