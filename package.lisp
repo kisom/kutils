@@ -40,4 +40,14 @@
 	   #:copy-hash-table
            #:hash-table-to-alist
            #:alist-to-hash-table
+
+	   ;; macros.lisp
+	   #:whenlet
+	   #:whenlet*
+	   #:unlesslet
+	   #:unlesslet*
+	   #:iflet
+	   #:iflet*
+	   #:condlet
+	   #:condlet*
            ))

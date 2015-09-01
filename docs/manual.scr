@@ -195,6 +195,36 @@ will be returned as an alist:
 @end(section)
 
 @begin(section)
+@title(Macros)
+
+@begin(deflist)
+
+@term(Let macros)
+@begin(def)
+
+These are macros that combine a @c(let) or @c(let*) form with a test
+based on the results of the bindings. This is useful for reducing
+common boilerplate where a let is used to perform some operations, and
+some code should be executed based on the results of those bindings.
+
+@cl:with-package[name="kutils"](
+@cl:doc(macro condlet)
+@cl:doc(macro condlet*)
+@cl:doc(macro iflet)
+@cl:doc(macro iflet*)
+@cl:doc(macro unlesslet)
+@cl:doc(macro unlesslet*)
+@cl:doc(macro whenlet)
+@cl:doc(macro whenlet*)
+)
+
+@end(def)
+
+@end(deflist)
+
+@end(section)
+
+@begin(section)
 @title(Symbol index)
 
 Alphabetical list of all exported symbols.
@@ -219,6 +249,12 @@ described in "Miscellaneous utilities" under "General".)
 
 @item(@c(compose) is a function defined in @c(on.lisp), described in
 "On Lisp utilities".)
+
+@item(@c(condlet) is a macro defined in @c(macros.lisp), described in
+"Macros".)
+
+@item(@c(condlet*) is a macro defined in @c(macros.lisp), described in
+"Macros".)
 
 @item(@c(copy-hash-table) is a function defined in
 @c(kutils-hash-tables.lisp), described in "Hash-table related
@@ -256,6 +292,12 @@ utilities".)
 @item(@c(hashkeys) is a function defined in
 @c(kutils-hash-tables.lisp), described in "Hash-table related
 utilities".)
+
+@item(@c(iflet) is a macro defined in @c(macros.lisp), described in
+"Macros".)
+
+@item(@c(iflet*) is a macro defined in @c(macros.lisp), described in
+"Macros".)
 
 @item(@c(interpose) is a function defined in @c(kutils.lisp),
 described in "Miscellaneous utilities" under "Clojure-inspired
@@ -295,6 +337,18 @@ Lisp utilities".)
 @item(@c(take) is a function defined in @c(kutils.lisp), described in
 "Miscellaneous utilities" under "Clojure-inspired functions".)
 
+@item(@c(unlesslet) is a macro defined in @c(macros.lisp), described in
+"Macros".)
+
+@item(@c(unlesslet*) is a macro defined in @c(macros.lisp), described in
+"Macros".)
+
+@item(@c(whenlet) is a macro defined in @c(macros.lisp), described in
+"Macros".)
+
+@item(@c(whenlet*) is a macro defined in @c(macros.lisp), described in
+"Macros".)
+
 @item(@c(with-new-hash-table) is a macro defined in
 @c(kutils-hash-tables.lisp), described in "Hash-table related
 utilities".)
@@ -318,6 +372,8 @@ Alphabetical documentation for all exported symbols.
 @cl:doc(function build-vector)
 @cl:doc(function cartprod2)
 @cl:doc(function compose)
+@cl:doc(macro condlet)
+@cl:doc(macro condlet*)
 @cl:doc(function copy-hash-table)
 @cl:doc(macro defmacro!)
 @cl:doc(function drop)
@@ -329,6 +385,8 @@ Alphabetical documentation for all exported symbols.
 @cl:doc(function group)
 @cl:doc(function hash-table-to-alist)
 @cl:doc(function hashkeys)
+@cl:doc(macro iflet)
+@cl:doc(macro iflet*)
 @cl:doc(function interpose)
 @cl:doc(function macroexpand-n)
 @cl:doc(macro mapv)
@@ -341,6 +399,10 @@ Alphabetical documentation for all exported symbols.
 @cl:doc(macro sethash)
 @cl:doc(function symb)
 @cl:doc(function take)
+@cl:doc(macro unlesslet)
+@cl:doc(macro unlesslet*)
+@cl:doc(macro whenlet)
+@cl:doc(macro whenlet*)
 @cl:doc(macro with-new-hash-table)
 @cl:doc(function zip))
 
