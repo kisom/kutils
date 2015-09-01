@@ -68,3 +68,50 @@ a @c(cond)."
     `(let (,@bindings)
        (cond ,@forms))))
 
+(defmacro! read-file-as-string (path &rest args &key (direction nil directionp)
+					   &allow-other-keys)
+  "Read the contents of the file at @c(path) as a string. Any
+remaining arguments are sent to @c(with-open-file)."
+  (when directionp
+      (error "Specifying :direction is not allowed with READ-FILE-STRING."))
+  `(with-open-file (g!s ,path ,@args)
+     (let ((g!data (make-string (file-length g!s))))
+       (read-sequence g!data g!s)
+       g!data)))
+
+(defmacro! with-string-output-to-file ((path &rest args &key (direction :output directionp)
+				    &allow-other-keys)
+				       &body body)
+  "Evaluate @c(body), and call @c(mkstr) on the result. Write the
+resulting string to @c(path). Any remaining arguments are sent to
+@c(with-open-file)."
+  (when directionp
+    (error "Specifying :direction is not allowed with WRITE-FILE-STRING."))
+  `(with-open-file (g!s ,path :direction ,direction ,@args)
+     (with-standard-io-syntax
+       (let ((o!out (mkstr ,@body)))
+	 (princ o!out g!s)))))
+
+(defmacro with-read-from-file (path &rest args &key (direction nil directionp)
+						 &allow-other-keys)
+  "Read the form contained in @c(path), with any remaining arguments
+passed to @c(with-open-file)."
+  (let ((s (gensym)))
+    (declare (ignore direction))
+    (when directionp
+      (error "Specifying :direction is not allowed with READ-FILE."))
+    `(with-open-file (,s ,path ,@args)
+       (with-standard-io-syntax
+	 (read ,s)))))
+
+(defmacro with-write-to-file ((stream path &rest args
+			      &key (direction :output directionp)
+			      &allow-other-keys)
+		      &body body)
+  "Evaluate @c(body) with the file at @c(path) opened and bound to the
+  value of @c(stream). Any remaining keyword arguments are passed to
+  @c(with-open-file)."
+  (when directionp
+    (error "Specifying :direction is not allowed with WRITE-FILE."))
+  `(with-open-file (,stream ,path :direction ,direction ,@args)
+     ,@body))

@@ -220,6 +220,20 @@ some code should be executed based on the results of those bindings.
 
 @end(def)
 
+@term(File macros)
+@begin(def)
+
+These macros abstract common operations on files.
+
+@cl:with-package[name="kutils"](
+@cl:doc(macro read-file-string)
+@cl:doc(macro with-string-output-to-file)
+@cl:doc(macro with-read-from-file)
+@cl:doc(macro with-write-to-file)
+)
+
+@end(def)
+
 @end(deflist)
 
 @end(section)
@@ -251,10 +265,10 @@ described in "Miscellaneous utilities" under "General".)
 "On Lisp utilities".)
 
 @item(@c(condlet) is a macro defined in @c(macros.lisp), described in
-"Macros".)
+"Macros" under "Let macros".)
 
 @item(@c(condlet*) is a macro defined in @c(macros.lisp), described in
-"Macros".)
+"Macros" under "Let macros".)
 
 @item(@c(copy-hash-table) is a function defined in
 @c(kutils-hash-tables.lisp), described in "Hash-table related
@@ -294,10 +308,10 @@ utilities".)
 utilities".)
 
 @item(@c(iflet) is a macro defined in @c(macros.lisp), described in
-"Macros".)
+"Macros" under "Let macros".)
 
 @item(@c(iflet*) is a macro defined in @c(macros.lisp), described in
-"Macros".)
+"Macros" under "Let macros".)
 
 @item(@c(interpose) is a function defined in @c(kutils.lisp),
 described in "Miscellaneous utilities" under "Clojure-inspired
@@ -328,6 +342,9 @@ described in "Miscellaneous utilities" under "Vector-related".)
 @item(@c(partial) is a function defined in @c(kutils.lisp), described
 in "Miscellaneous utilities" under "Clojure-inspired functions".)
 
+@item(@c(read-file-string) is a macro defined in @c(macros.lisp),
+described in "Macros" under "File macros".)
+
 @item(@c(sethash) is a macro defined in @c(kutils-hash-tables.lisp),
 described in "Hash-table related utilities".)
 
@@ -338,20 +355,29 @@ Lisp utilities".)
 "Miscellaneous utilities" under "Clojure-inspired functions".)
 
 @item(@c(unlesslet) is a macro defined in @c(macros.lisp), described in
-"Macros".)
+"Macros" under "Let macros".)
 
 @item(@c(unlesslet*) is a macro defined in @c(macros.lisp), described in
-"Macros".)
+"Macros" under "Let macros".)
 
 @item(@c(whenlet) is a macro defined in @c(macros.lisp), described in
-"Macros".)
+"Macros" under "Let macros".)
 
 @item(@c(whenlet*) is a macro defined in @c(macros.lisp), described in
-"Macros".)
+"Macros" under "Let macros".)
 
 @item(@c(with-new-hash-table) is a macro defined in
 @c(kutils-hash-tables.lisp), described in "Hash-table related
 utilities".)
+
+@item(@c(with-read-from-file) is a macro defined in @c(macros.lisp),
+described in "Macros" under "File macros".)
+
+@item(@c(with-string-output-to-file) is a macro defined in @c(macros.lisp),
+described in "Macros" under "File macros".)
+
+@item(@c(with-write-to-file) is a macro defined in @c(macros.lisp),
+described in "Macros" under "File macros".)
 
 @item(@c(zip) is a function defined in @c(kutils.lisp), described in
 "Miscellaneous utilities" under "General".)
@@ -396,6 +422,7 @@ Alphabetical documentation for all exported symbols.
 @cl:doc(function new-hash-table)
 @cl:doc(function new-vector)
 @cl:doc(function partial)
+@cl:doc(macro read-file-string)
 @cl:doc(macro sethash)
 @cl:doc(function symb)
 @cl:doc(function take)
@@ -404,6 +431,9 @@ Alphabetical documentation for all exported symbols.
 @cl:doc(macro whenlet)
 @cl:doc(macro whenlet*)
 @cl:doc(macro with-new-hash-table)
+@cl:doc(macro with-read-from-file)
+@cl:doc(macro with-string-output-to-file)
+@cl:doc(macro with-write-to-file)
 @cl:doc(function zip))
 
 @end(section)

@@ -83,14 +83,6 @@ additional args provided to the lambda."
 	       (cons (mapcar #'car lsts) (zip-acc (mapcar #'cdr lsts))))))
     (zip-acc lsts)))
 
-
-(defun read-file-string (path)
-  "Read the contents of the file at path as a string."
-  (with-open-file (s path)
-    (let ((data (make-string (file-length s))))
-      (read-sequence data s)
-      data)))
-
 (defun new-vector ()
   "Create a new, empty, adjustable vector with fill pointer."
   (make-array 0 :adjustable t :fill-pointer t))
@@ -150,3 +142,5 @@ effectful code, such as logging."
   (lambda (&rest args)
     (dolist (fn fns)
       (apply fn args))))
+
+

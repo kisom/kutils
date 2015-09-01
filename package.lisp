@@ -50,4 +50,8 @@
 	   #:iflet*
 	   #:condlet
 	   #:condlet*
+	   #:read-file-string
+	   #:with-string-output-to-file
+	   #:with-read-from-file
+	   #:with-write-to-file
            ))
