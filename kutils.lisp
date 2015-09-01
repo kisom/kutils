@@ -150,7 +150,7 @@ effectful code, such as logging."
       (if (funcall test x)
 	  (push x match)
 	  (push x no-match)))
-    (vector match no-match)))
+    (list match no-match)))
 
 (defun partition-vector (test vec)
   (let ((match (new-vector))
@@ -169,5 +169,4 @@ those that do not satisfy @c(pred)."
   (cond
     ((listp seq)   (partition-list pred seq))
     ((vectorp seq) (partition-vector pred seq))
-    (t (error "Values of type ~A cannot be partitioned."
-	      (type-of seq)))))
+    (t nil)))
