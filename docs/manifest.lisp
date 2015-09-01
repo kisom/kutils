@@ -1,5 +1,5 @@
 (:docstring-markup-format :scriba
- :systems (:kutils)
+ :systems (:kutils :kutils-mop)
  :documents ((:title "kutils"
               :authors ("K. Isom")
               :output-format (:type :multi-html

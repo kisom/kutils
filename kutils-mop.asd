@@ -5,7 +5,8 @@
   :author "K. Isom <kyle@metacircular.net>"
   :license "MIT License"
   :serial t
+  :pathname #P"kmop/"
   :depends-on (#:closer-mop #:kutils)
-  :components ((:file "kmop/package")
-               (:file "kmop/kmop")))
+  :components ((:file "package")
+               (:file "kmop")))
 

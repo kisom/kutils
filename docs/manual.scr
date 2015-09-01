@@ -226,15 +226,64 @@ some code should be executed based on the results of those bindings.
 These macros abstract common operations on files.
 
 @cl:with-package[name="kutils"](
-@cl:doc(macro! read-file-as-string)
-@cl:doc(macro! with-string-output-to-file)
 @cl:doc(macro with-read-from-file)
 @cl:doc(macro with-write-to-file)
 )
 
+The following two macros aren't yet able to be documented with
+@link[uri="https://github.com/CommonDoc/codex"](Codex), as they are
+defined using the @c(defmacro!) macro:
+
+@code(
+read-file-as-string (path &rest args
+                          &key (direction nil directionp)
+                          &allow-other-keys))
+
+Read the contents of the file at @c(path) as a string. Any remaining
+arguments are sent to @c(with-open-file).
+
+@code(
+with-string-output-to-file
+  ((path &rest args &key (direction :output directionp)
+         &allow-other-keys)
+   &body body))
+
+Evaluate @c(body), and call @c(mkstr) on the result. Write the
+resulting string to @c(path). Any remaining arguments are sent to
+@c(with-open-file).
+
+
+
 @end(def)
 
 @end(deflist)
+
+@end(section)
+
+@begin(section)
+@title(Metaobject utilities)
+
+The package @c(kutils-mop) contains utilities taking advantage of the
+metaobject protocol.
+
+The @c(make-instance-from-hash-table) function will attempt to create
+an instance of an object from a hash table.
+
+@cl:with-package[name="kutils-mop"](
+@cl:doc(function make-instance-from-hash-table))
+
+This is motivated by the fact that
+@link[uri="http://quickdocs.org/yason/"](Yason) parses JSON as hash
+tables; this function is used to facilitate rapidly parsing CLOS
+objects from JSON.
+
+For example, with the following @c(example.json)
+
+@code(@include[path=example.json]())
+
+the following code will produce an instance of the @c(class-d) class.
+
+@code(@include[path=mop-table-demo.lisp]())
 
 @end(section)
 
@@ -319,6 +368,10 @@ functions".)
 
 @item(@c(macroexpand-n) is a function defined in @c(kutils.lisp),
 described in "Miscellaneous utilities" under "General".)
+
+@item(@c(make-instance-from-hash-table) is a function defined in the
+@c(#:kutils-mop) package in @c(kmop/kmop.lisp), described in
+"Metaobject utilities".)
 
 @item(@c(mapv) is a macro defined in @c(kutils.lisp), described in
 "Miscellaneous utilities" under "Vector-related".)
@@ -422,7 +475,6 @@ Alphabetical documentation for all exported symbols.
 @cl:doc(function new-hash-table)
 @cl:doc(function new-vector)
 @cl:doc(function partial)
-@cl:doc(macro! read-file-as-string)
 @cl:doc(macro sethash)
 @cl:doc(function symb)
 @cl:doc(function take)
@@ -432,8 +484,15 @@ Alphabetical documentation for all exported symbols.
 @cl:doc(macro whenlet*)
 @cl:doc(macro with-new-hash-table)
 @cl:doc(macro with-read-from-file)
-@cl:doc(macro! with-string-output-to-file)
 @cl:doc(macro with-write-to-file)
 @cl:doc(function zip))
 
+The following functions cannot be automatically documented by Codex,
+as they are defined using the @c(defmacro!) macro. Their description
+is in the "Macro" section.
+
+@begin(list)
+@item(@c(read-file-as-string))
+@item(@c(with-string-output-to-file))
+@end(list)
 @end(section)

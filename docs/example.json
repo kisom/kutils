@@ -1,0 +1,8 @@
+{
+    "name": "something",
+    "ref": {
+        "link": "https://common-lisp.net/",
+        "title": "Common Lisp"
+    },
+    "value": "just a thing"
+}
