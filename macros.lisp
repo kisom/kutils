@@ -125,20 +125,34 @@ is called on both."
            a))
 
 (defmacro in (obj seq &key (test #'eql) key deep)
-  "Returns T if @c(obj), which may be a vector or list), is in
-@c(seq); using @c(test) to determine whether the object matches. If
-@c(key) is not NIL, it is applied to the key before @c(test). If
-@c(deep) is true, @c(seq) will be flattened before checking the
-list. Note that @c(deep) is only valid for lists, and will not behave
-as expected with vectors."
-  (with-gensyms (obj% seq% x!)
-    (declare (dynamic-extent obj% seq% x!))
+  "Returns T if @c(obj), is in @c(seq).
+
+If @c(seq) is a list, @c(test) is used to determine whether the object
+matches. If @c(key) is not NIL, it is applied to elements before
+@c(test). If @c(deep) is true, @c(seq) will be flattened before
+checking the list.
+
+If @c(seq) is a vector, @c(test) is used to determine whether the
+object matches. If @c(key) is not NIL, it is applied to elements
+before @c(test).
+
+If @c(seq) is a hash table, @c(test) does not apply; the hash table's
+test is used. If @c(key) is not NIL, it is applied to @c(obj) before
+looking it up."
+  (with-gensyms (obj% seq% key% x! found!)
+    (declare (dynamic-extent obj% key% seq% x!))
     `(let ((,obj% ,obj)
+	   (,key% ,key)
 	   (,seq% (if ,deep ,(flatten seq) ,seq)))
        (cond
 	 ((vectorp ,seq%)
 	  (loop for ,x! across ,seq%
-	     thereis (is ,obj% ,x! ,test ,key)))
+	     thereis (is ,obj% ,x! ,test ,key%)))
 	 ((listp ,seq%)
 	  (loop for ,x! in ,seq%
-	     thereis (is ,obj% ,x! ,test ,key)))))))
+	     thereis (is ,obj% ,x! ,test ,key%)))
+	 ((hash-table-p ,seq%)
+	  (multiple-value-bind (,x! ,found!)
+	      (gethash ,obj% ,seq%)
+	    (declare (ignore ,x!))
+	    ,found!))))))
