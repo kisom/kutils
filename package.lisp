@@ -8,6 +8,7 @@
            #:group
            #:flatten
            #:compose
+	   #:with-gensyms
 
 	   ;; lol.lisp : utilities from Let Over Lambda
            #:defmacro!
@@ -55,4 +56,5 @@
 	   #:with-string-output-to-file
 	   #:with-read-from-file
 	   #:with-write-to-file
+	   #:in
            ))

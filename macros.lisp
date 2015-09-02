@@ -113,3 +113,32 @@ value of @c(stream). Any remaining keyword arguments are passed to
     (error "Specifying :direction is not allowed with WRITE-FILE."))
   `(with-open-file (,stream ,path :direction ,direction ,@args)
      ,@body))
+
+(defun is (a b test key)
+  "Are a and b equal? If not NIL, #'key is applied to b, then #'test
+is called on both."
+  (declare (inline))
+  (funcall test
+           (if key
+               (funcall key b)
+             b)
+           a))
+
+(defmacro in (obj seq &key (test #'eql) key deep)
+  "Returns T if @c(obj), which may be a vector or list), is in
+@c(seq); using @c(test) to determine whether the object matches. If
+@c(key) is not NIL, it is applied to the key before @c(test). If
+@c(deep) is true, @c(seq) will be flattened before checking the
+list. Note that @c(deep) is only valid for lists, and will not behave
+as expected with vectors."
+  (with-gensyms (obj% seq% x!)
+    (declare (dynamic-extent obj% seq% x!))
+    `(let ((,obj% ,obj)
+	   (,seq% (if ,deep ,(flatten seq) ,seq)))
+       (cond
+	 ((vectorp ,seq%)
+	  (loop for ,x! across ,seq%
+	     thereis (is ,obj% ,x! ,test ,key)))
+	 ((listp ,seq%)
+	  (loop for ,x! in ,seq%
+	     thereis (is ,obj% ,x! ,test ,key)))))))

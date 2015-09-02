@@ -53,3 +53,12 @@ composed together in a chain."
                         :from-end t
                         :initial-value (apply fn1 args))))
           #'identity))
+
+(defmacro with-gensyms (syms &body body)
+  "Binds a whole list of variables to gensyms."
+  `(let ,(mapcar #'(lambda (s)
+                     `(,s (gensym)))
+                 syms)
+     ,@body))
+
+

@@ -87,6 +87,7 @@ some functions I found useful.)
 @cl:doc(function group)
 @cl:doc(function flatten)
 @cl:doc(function compose)
+@cl:doc(macro with-gensyms)
 )
 
 
@@ -263,9 +264,12 @@ Evaluate @c(body), and call @c(mkstr) on the result. Write the
 resulting string to @c(path). Any remaining arguments are sent to
 @c(with-open-file).
 
-
-
 @end(def)
+
+@term(General)
+
+@cl:with-package[name="kutils"](
+@cl:doc(macro in))
 
 @end(deflist)
 
@@ -373,6 +377,9 @@ utilities".)
 @item(@c(iflet*) is a macro defined in @c(macros.lisp), described in
 "Macros" under "Let macros".)
 
+@item(@c(in) is a macro defined in @c(macros.lisp), described in
+"Macros" under "General".)
+
 @item(@c(interpose) is a function defined in @c(kutils.lisp),
 described in "Miscellaneous utilities" under "Clojure-inspired
 functions".)
@@ -433,6 +440,9 @@ Lisp utilities".)
 @item(@c(whenlet*) is a macro defined in @c(macros.lisp), described in
 "Macros" under "Let macros".)
 
+@item(@c(with-gensyms) is a macro defined in @c(on.lisp), described in
+"On Lisp utilities".)
+
 @item(@c(with-new-hash-table) is a macro defined in
 @c(kutils-hash-tables.lisp), described in "Hash-table related
 utilities".)
@@ -480,6 +490,7 @@ Alphabetical documentation for all exported symbols.
 @cl:doc(function hashkeys)
 @cl:doc(macro iflet)
 @cl:doc(macro iflet*)
+@cl:doc(macro in)
 @cl:doc(function interpose)
 @cl:doc(function macroexpand-n)
 @cl:doc(macro mapv)
@@ -497,6 +508,7 @@ Alphabetical documentation for all exported symbols.
 @cl:doc(macro unlesslet*)
 @cl:doc(macro whenlet)
 @cl:doc(macro whenlet*)
+@cl:doc(macro with-gensyms)
 @cl:doc(macro with-new-hash-table)
 @cl:doc(macro with-read-from-file)
 @cl:doc(macro with-write-to-file)
