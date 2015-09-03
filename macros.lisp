@@ -40,7 +40,7 @@ evaluate @c(body), which is wrapped in an implicit @c(progn)."
   "Evaluate @c(bindings) in a @c(let) form; if they are all T, execute
 the @c(then) form. Otherwise, execute the @c(else) form."  
   (let ((bindings (if (listp (first bindings)) bindings (list bindings))))
-    `(let* (,@bindings)
+    `(let (,@bindings)
        (if (and ,@(mapcar #'first bindings))
 	   (progn ,then)
 	   (progn ,else)))))
@@ -64,7 +64,7 @@ a @c(cond)."
 (defmacro condlet* (bindings &body forms)
   "Evaluate @c(bindings) in a @c(let*) form, then evaluate @c(forms) in
 a @c(cond)."
-  (let ((bindings (if (listp (first bindings)) bindings (list bindings))))
+  (let* ((bindings (if (listp (first bindings)) bindings (list bindings))))
     `(let (,@bindings)
        (cond ,@forms))))
 
