@@ -19,6 +19,7 @@
 	   #:drop
            #:build-list
            #:partial
+	   #:flip
            #:macroexpand-n
            #:mksymb
            #:mkkw
@@ -44,6 +45,7 @@
            #:alist-to-hash-table
 
 	   ;; macros.lisp
+	   #:orlet
 	   #:whenlet
 	   #:whenlet*
 	   #:unlesslet

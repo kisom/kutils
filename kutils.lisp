@@ -46,6 +46,11 @@ additional args provided to the lambda."
   (lambda (&rest args)
     (apply fn (append initial-args args))))
 
+(defun flip (fn y)
+  "Given a function @c(fn) that takes arguments @c(x) and @c(y), return a lambda with @c(y) applied to the function."
+  (lambda (x)
+    (funcall fn x y)))
+
 (defun macroexpand-n (n form)
   "Expand the macro n times."
   (let ((new-form form))

@@ -117,6 +117,8 @@ some functions I found useful.)
 @code(@include[path=examples.lisp start=1 end=5]())
 @cl:doc(function effector)
 @cl:doc(function empty-or-nil-p)
+@cl:doc(function flip)
+@code(@include[path="flip.lisp"]())
 @cl:doc(function macroexpand-n)
 @cl:doc(function mksymb)
 @cl:doc(function mkkw)
@@ -224,6 +226,8 @@ For example, from @c(kmop/kmop.lisp):
 @cl:doc(macro condlet*)
 @cl:doc(macro iflet)
 @cl:doc(macro iflet*)
+@cl:doc(macro orlet)
+@code(@include[path="orlet.lisp"]())
 @cl:doc(macro unlesslet)
 @cl:doc(macro unlesslet*)
 @cl:doc(macro whenlet)
@@ -360,6 +364,9 @@ described in "Miscellaneous utilities" under "Vector-related".)
 @item(@c(flatten) is a function defined in @c(on.lisp), described in
 "On Lisp utilities".)
 
+@item(@c(flip) is a function defined in @c(kutils.lisp), described in
+"Miscellaneous utilities" under "General".)
+
 @item(@c(group) is a function defined in @c(kutils.lisp), described in
 "On Lisp utilities".)
 
@@ -409,6 +416,9 @@ utilities".)
 
 @item(@c(new-vector) is a function defined in @c(kutils.lisp),
 described in "Miscellaneous utilities" under "Vector-related".)
+
+@item(@c(orlet) is a macro defined in @c(macros.lisp), described in
+"Macros" under "Let macros".)
 
 @item(@c(partial) is a function defined in @c(kutils.lisp), described
 in "Miscellaneous utilities" under "Clojure-inspired functions".)
@@ -485,6 +495,7 @@ Alphabetical documentation for all exported symbols.
 @cl:doc(function enable-hash-table-reader)
 @cl:doc(function extend-vector)
 @cl:doc(function flatten)
+@cl:doc(function flip)
 @cl:doc(function group)
 @cl:doc(function hash-table-to-alist)
 @cl:doc(function hashkeys)
@@ -499,6 +510,7 @@ Alphabetical documentation for all exported symbols.
 @cl:doc(function mksymb)
 @cl:doc(function new-hash-table)
 @cl:doc(function new-vector)
+@cl:doc(macro orlet)
 @cl:doc(function partial)
 @cl:doc(function partition)
 @cl:doc(macro sethash)

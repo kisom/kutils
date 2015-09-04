@@ -4,6 +4,17 @@
 
 ;;; Various utility macros.
 
+(defun orletfun (bindings finally)
+  (if (null bindings)
+      finally
+      `(let (,(first bindings))
+	 (when ,(first (first bindings))
+	   ,(orletfun (rest bindings) finally)))))
+
+(defmacro orlet (bindings &body body)
+  "For each set of bindings, evaluate them in sequence. If each binding evaluates to T, evaluate @c(body) in a @c(progn)."  
+  (orletfun bindings `(progn ,@body)))
+
 (defmacro whenlet (bindings &body body)
   "Evaluate the bindings in a let form; if they all evaluate to T,
 evaluate @c(body) in an implicit @c(progn)."
