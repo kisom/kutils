@@ -285,7 +285,8 @@ resulting string to @c(path). Any remaining arguments are sent to
 The package @c(kutils-mop) contains utilities taking advantage of the
 metaobject protocol.
 
-The @c(list-all-slots) will return a list of all slots in an object.
+The @c(list-all-slots) function will return a list of all slots in an
+object.
 @cl:with-package[name="kutils-mop"](
 @cl:doc(function list-all-slots))
 

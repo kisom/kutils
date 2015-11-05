@@ -31,6 +31,8 @@
 
 
 (defun list-all-slots (class-sym &optional (package *package*))
+  "Given a class symbol (and optionally a package to search in),
+return a list of all the slots in an instance of that class."
   (let ((class-val (find-class
 			  (find-symbol
 			   (mkstr class-sym)
