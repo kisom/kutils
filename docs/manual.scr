@@ -285,6 +285,10 @@ resulting string to @c(path). Any remaining arguments are sent to
 The package @c(kutils-mop) contains utilities taking advantage of the
 metaobject protocol.
 
+The @c(list-all-slots) will return a list of all slots in an object.
+@cl:with-package[name="kutils-mop"](
+@cl:doc(function list-all-slots))
+
 The @c(make-instance-from-hash-table) function will attempt to create
 an instance of an object from a hash table.
 
@@ -390,6 +394,9 @@ utilities".)
 @item(@c(interpose) is a function defined in @c(kutils.lisp),
 described in "Miscellaneous utilities" under "Clojure-inspired
 functions".)
+
+@item(@c(list-all-slots) is a function defined in @c(kmop/kmop.list),
+described in "Metaobject utilities".)
 
 @item(@c(macroexpand-n) is a function defined in @c(kutils.lisp),
 described in "Miscellaneous utilities" under "General".)
@@ -503,6 +510,7 @@ Alphabetical documentation for all exported symbols.
 @cl:doc(macro iflet*)
 @cl:doc(macro in)
 @cl:doc(function interpose)
+@cl:doc(function list-all-slots)
 @cl:doc(function macroexpand-n)
 @cl:doc(macro mapv)
 @cl:doc(function mkkw)

@@ -30,7 +30,7 @@
    (mapcar #'closer-mop:slot-definition-initargs slots)))
 
 
-(defun get-all-slots (class-sym &optional (package *package*))
+(defun list-all-slots (class-sym &optional (package *package*))
   (let ((class-val (find-class
 			  (find-symbol
 			   (mkstr class-sym)
@@ -89,6 +89,6 @@ should use underscores. The slot type is used to determine whether
 to attempt to parse another object as a hash table entry."
   (whenlet ((class-sym (class-symbol class-type))
 	    (arglst (zip-initargs-hash-table
-		     (get-all-slots class-type package)
+		     (list-all-slots class-type package)
 		     table snake-case)))
     (apply #'make-instance class-sym arglst)))
