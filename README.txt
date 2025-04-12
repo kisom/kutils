@@ -53,3 +53,13 @@ Miscellanea
 * mkkw
 * zip
 * defclass!
+
+Documentation
+=============
+
+Documentation is generated with codex [1]:
+
+    CL-USER> (ql:quickload :codex) ;; if not installed
+    (:CODEX)
+    CL-USER> (codex:document :kutils)
+    NIL

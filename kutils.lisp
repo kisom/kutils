@@ -105,7 +105,7 @@ vector. Otherwise, attempt to map it into a vector."
 	((atom arg)
 	 (let ((v (new-vector)))
 	   (vector-push-extend arg v)
-	   v))	
+	   v))
         (t (mapv #'identity arg))))
 
 (defun extend-vector (v)
@@ -175,3 +175,9 @@ those that do not satisfy @c(pred)."
     ((listp seq)   (partition-list pred seq))
     ((vectorp seq) (partition-vector pred seq))
     (t nil)))
+
+(defun in-range (number low high)
+  "Returns T if LOW >= NUMBER <= HIGH."
+  (and
+   (<= number high)
+   (>= number low)))
